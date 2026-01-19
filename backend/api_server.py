@@ -335,7 +335,23 @@ def run_job(job_id, config):
         job.stop_reason_detail = str(e)
 
 app = FastAPI(title="Business Discovery API", version="2.1.0")
-app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
+
+# CORS Configuration - Allow frontend domains
+allowed_origins = [
+    "https://www.pointwakeglobal.com",  # Production frontend (with www)
+    "https://pointwakeglobal.com",       # Production frontend (without www)
+    "https://business-discovery-5h72.vercel.app",  # Vercel deployment
+    "http://localhost:5173",             # Local development
+    "http://localhost:8000",             # Local backend testing
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=allowed_origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/api/health")
 async def health():
