@@ -20,7 +20,14 @@ The frontend needs to know where the backend API is located. This is configured 
    - **Value:** `https://api.pointwakeglobal.com`
    - **Environments:** Check "Production" (and optionally Preview)
 5. Click **Save**
-6. **Redeploy** your application for changes to take effect
+6. **IMPORTANT:** After changing environment variables, you MUST trigger a fresh build:
+   - Go to **Deployments** tab
+   - Click latest deployment → three dots menu (**...**)
+   - Click **"Redeploy"**
+   - **UNCHECK** "Use existing Build Cache" (critical!)
+   - Click **"Redeploy"**
+
+**Why this matters:** Vite environment variables are build-time constants. Simply changing the variable won't update existing deployments - you need a fresh build that compiles the new value into the JavaScript bundle.
 
 ### How It Works
 
