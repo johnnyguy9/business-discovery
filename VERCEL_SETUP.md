@@ -8,7 +8,7 @@ The frontend needs to know where the backend API is located. This is configured 
 
 **Variable Name:** `VITE_API_BASE_URL`
 
-**Value for Production:** `http://3.15.145.185`
+**Value for Production:** `https://api.pointwakeglobal.com`
 
 ### How to Configure in Vercel Dashboard
 
@@ -17,7 +17,7 @@ The frontend needs to know where the backend API is located. This is configured 
 3. Navigate to **Environment Variables** section
 4. Add new variable:
    - **Name:** `VITE_API_BASE_URL`
-   - **Value:** `http://3.15.145.185`
+   - **Value:** `https://api.pointwakeglobal.com`
    - **Environments:** Check "Production" (and optionally Preview)
 5. Click **Save**
 6. **Redeploy** your application for changes to take effect
@@ -31,10 +31,10 @@ The frontend needs to know where the backend API is located. This is configured 
 ### Current API Endpoints
 
 When properly configured, the frontend will call:
-- Health check: `http://3.15.145.185/api/health`
-- Search: `http://3.15.145.185/api/search`
-- Results: `http://3.15.145.185/api/results/{jobId}`
-- CSV download: `http://3.15.145.185/api/results/{jobId}/csv`
+- Health check: `https://api.pointwakeglobal.com/api/health`
+- Search: `https://api.pointwakeglobal.com/api/search`
+- Results: `https://api.pointwakeglobal.com/api/results/{jobId}`
+- CSV download: `https://api.pointwakeglobal.com/api/results/{jobId}/csv`
 
 ### Troubleshooting
 
@@ -47,7 +47,7 @@ When properly configured, the frontend will call:
 
 **Solution:**
 - Verify environment variable is set in Vercel dashboard
-- Test backend directly: `curl http://3.15.145.185/api/health`
+- Test backend directly: `curl https://api.pointwakeglobal.com/api/health`
 - Check backend CORS allows: `https://business-discovery-5h72.vercel.app`
 
 ### Local Development
