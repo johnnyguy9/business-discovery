@@ -1,7 +1,13 @@
 import BusinessDiscoveryDashboard from './BusinessDiscoveryDashboard'
+import DiagnosticInfo from './DiagnosticInfo'
 
 function App() {
-  return <BusinessDiscoveryDashboard />
+  return (
+    <>
+      <BusinessDiscoveryDashboard />
+      <DiagnosticInfo />
+    </>
+  )
 }
 
 export default App
