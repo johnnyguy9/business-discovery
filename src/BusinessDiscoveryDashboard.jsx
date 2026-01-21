@@ -31,85 +31,94 @@ const US_STATES = [
 const styles = {
   container: {
     fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-    maxWidth: '1200px',
+    maxWidth: '1400px',
     margin: '0 auto',
-    padding: '24px',
+    padding: '40px 24px',
     backgroundColor: '#0f172a',
     minHeight: '100vh',
     color: '#e2e8f0',
   },
   header: {
     textAlign: 'center',
-    marginBottom: '32px',
+    marginBottom: '48px',
   },
   logo: {
-    fontSize: '32px',
+    fontSize: '42px',
     fontWeight: '800',
     background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
     WebkitBackgroundClip: 'text',
     WebkitTextFillColor: 'transparent',
     backgroundClip: 'text',
+    letterSpacing: '-0.02em',
   },
   subtitle: {
     color: '#94a3b8',
-    fontSize: '14px',
-    marginTop: '4px',
+    fontSize: '16px',
+    marginTop: '8px',
+    fontWeight: '400',
   },
   card: {
     backgroundColor: '#1e293b',
-    borderRadius: '12px',
-    padding: '24px',
-    marginBottom: '24px',
+    borderRadius: '16px',
+    padding: '32px',
+    marginBottom: '32px',
     border: '1px solid #334155',
+    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.3)',
   },
   cardTitle: {
-    fontSize: '18px',
-    fontWeight: '600',
-    marginBottom: '16px',
+    fontSize: '20px',
+    fontWeight: '700',
+    marginBottom: '24px',
     color: '#f1f5f9',
+    letterSpacing: '-0.01em',
   },
   formGrid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-    gap: '16px',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+    gap: '24px',
   },
   label: {
     display: 'block',
     fontSize: '14px',
-    fontWeight: '500',
-    marginBottom: '6px',
+    fontWeight: '600',
+    marginBottom: '8px',
     color: '#cbd5e1',
+    letterSpacing: '0.01em',
   },
   input: {
     width: '100%',
-    padding: '10px 14px',
-    borderRadius: '8px',
+    padding: '12px 16px',
+    borderRadius: '10px',
     border: '1px solid #475569',
     backgroundColor: '#0f172a',
     color: '#e2e8f0',
-    fontSize: '14px',
+    fontSize: '15px',
     boxSizing: 'border-box',
     outline: 'none',
+    transition: 'border-color 0.2s, box-shadow 0.2s',
   },
   select: {
     width: '100%',
-    padding: '10px 14px',
-    borderRadius: '8px',
+    padding: '12px 16px',
+    borderRadius: '10px',
     border: '1px solid #475569',
     backgroundColor: '#0f172a',
     color: '#e2e8f0',
-    fontSize: '14px',
+    fontSize: '15px',
     boxSizing: 'border-box',
     outline: 'none',
+    transition: 'border-color 0.2s, box-shadow 0.2s',
+    cursor: 'pointer',
   },
   button: {
-    padding: '12px 24px',
-    borderRadius: '8px',
+    padding: '14px 32px',
+    borderRadius: '10px',
     border: 'none',
     fontWeight: '600',
-    fontSize: '14px',
+    fontSize: '15px',
     cursor: 'pointer',
-    transition: 'opacity 0.2s',
+    transition: 'all 0.2s ease',
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
   },
   primaryButton: {
     background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
@@ -117,89 +126,97 @@ const styles = {
   },
   statsGrid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
-    gap: '12px',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
+    gap: '16px',
   },
   statCard: {
     backgroundColor: '#0f172a',
-    borderRadius: '8px',
-    padding: '16px',
+    borderRadius: '12px',
+    padding: '20px',
     textAlign: 'center',
     border: '1px solid #334155',
+    transition: 'transform 0.2s, box-shadow 0.2s',
   },
   statValue: {
-    fontSize: '24px',
+    fontSize: '28px',
     fontWeight: '700',
+    letterSpacing: '-0.02em',
   },
   statLabel: {
-    fontSize: '11px',
+    fontSize: '12px',
     color: '#94a3b8',
-    marginTop: '4px',
+    marginTop: '6px',
     textTransform: 'uppercase',
     letterSpacing: '0.5px',
+    fontWeight: '600',
   },
   progressBar: {
-    height: '8px',
+    height: '10px',
     backgroundColor: '#334155',
-    borderRadius: '4px',
+    borderRadius: '6px',
     overflow: 'hidden',
-    marginTop: '16px',
+    marginTop: '20px',
+    boxShadow: 'inset 0 2px 4px rgba(0, 0, 0, 0.3)',
   },
   progressFill: {
     height: '100%',
     background: 'linear-gradient(90deg, #6366f1, #8b5cf6)',
     transition: 'width 0.3s ease',
+    boxShadow: '0 0 10px rgba(99, 102, 241, 0.5)',
   },
   table: {
     width: '100%',
     borderCollapse: 'collapse',
+    borderRadius: '8px',
+    overflow: 'hidden',
   },
   th: {
     textAlign: 'left',
-    padding: '12px',
+    padding: '16px',
     backgroundColor: '#0f172a',
-    fontWeight: '600',
-    fontSize: '11px',
+    fontWeight: '700',
+    fontSize: '12px',
     textTransform: 'uppercase',
     color: '#94a3b8',
-    borderBottom: '1px solid #334155',
+    borderBottom: '2px solid #334155',
     letterSpacing: '0.5px',
   },
   td: {
-    padding: '12px',
+    padding: '16px',
     borderBottom: '1px solid #334155',
-    fontSize: '13px',
+    fontSize: '14px',
     color: '#e2e8f0',
   },
   badge: {
     display: 'inline-block',
-    padding: '2px 8px',
-    borderRadius: '12px',
-    fontSize: '11px',
-    fontWeight: '600',
+    padding: '4px 10px',
+    borderRadius: '14px',
+    fontSize: '12px',
+    fontWeight: '700',
   },
   previewNote: {
     backgroundColor: '#1e3a5f',
     border: '1px solid #3b82f6',
-    borderRadius: '8px',
-    padding: '12px 16px',
-    marginBottom: '16px',
-    fontSize: '14px',
+    borderRadius: '10px',
+    padding: '14px 18px',
+    marginBottom: '20px',
+    fontSize: '15px',
   },
   warningBanner: {
     backgroundColor: '#78350f',
     border: '1px solid #f59e0b',
-    borderRadius: '8px',
-    padding: '16px',
-    marginBottom: '16px',
+    borderRadius: '10px',
+    padding: '18px',
+    marginBottom: '20px',
   },
   errorBanner: {
     backgroundColor: '#7f1d1d',
     border: '1px solid #dc2626',
-    borderRadius: '8px',
-    padding: '12px 16px',
+    borderRadius: '10px',
+    padding: '14px 18px',
     color: '#fecaca',
-    marginBottom: '16px',
+    marginBottom: '20px',
+    fontSize: '15px',
   },
   link: {
     color: '#818cf8',
@@ -219,6 +236,7 @@ export default function BusinessDiscoveryDashboard() {
   const [keywords, setKeywords] = useState('');
   const [geographyMode, setGeographyMode] = useState('state');
   const [selectedState, setSelectedState] = useState('TX');
+  const [selectedCities, setSelectedCities] = useState('');
   const [minResults, setMinResults] = useState(500);
   const [jobId, setJobId] = useState(null);
   const [jobStatus, setJobStatus] = useState(null);
@@ -277,6 +295,10 @@ export default function BusinessDiscoveryDashboard() {
       setError('Please select a state');
       return;
     }
+    if (geographyMode === 'city' && !selectedCities.trim()) {
+      setError('Please enter at least one city');
+      return;
+    }
     if (backendStatus !== 'ready') {
       setError('Backend not ready. Check API configuration.');
       return;
@@ -289,15 +311,24 @@ export default function BusinessDiscoveryDashboard() {
 
     try {
       const keywordList = keywords.split(',').map(k => k.trim()).filter(k => k);
+
+      const payload = {
+        keywords: keywordList,
+        geographyMode,
+        state: selectedState,
+        minResults: parseInt(minResults) || 500,
+      };
+
+      // Add cities if in city mode
+      if (geographyMode === 'city' && selectedCities.trim()) {
+        const cityList = selectedCities.split(',').map(c => c.trim()).filter(c => c);
+        payload.cities = cityList;
+      }
+
       const res = await fetch(`${API_BASE}/api/search`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          keywords: keywordList,
-          geographyMode,
-          state: selectedState,
-          minResults: parseInt(minResults) || 500,
-        }),
+        body: JSON.stringify(payload),
       });
 
       if (!res.ok) {
@@ -550,6 +581,19 @@ export default function BusinessDiscoveryDashboard() {
             </select>
           </div>
 
+          {geographyMode === 'city' && (
+            <div>
+              <label style={styles.label}>Cities (comma-separated)</label>
+              <input
+                type="text"
+                value={selectedCities}
+                onChange={e => setSelectedCities(e.target.value)}
+                placeholder="Houston, Dallas, Austin"
+                style={styles.input}
+              />
+            </div>
+          )}
+
           <div>
             <label style={styles.label}>Minimum Results Target</label>
             <input
@@ -563,7 +607,7 @@ export default function BusinessDiscoveryDashboard() {
           </div>
         </div>
 
-        <div style={{ marginTop: '20px' }}>
+        <div style={{ marginTop: '32px', display: 'flex', gap: '12px' }}>
           <button
             onClick={handleSearch}
             disabled={isSearching || backendStatus !== 'ready'}
