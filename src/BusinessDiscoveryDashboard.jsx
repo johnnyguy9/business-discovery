@@ -1,5 +1,5 @@
 /**
- * Free Business Lead Scraper â Powered by PointWake
+ * Free Business Lead Scraper — Powered by PointWake
  * ==================================================
  * Production lead generation tool with PointWake branding.
  */
@@ -520,7 +520,7 @@ export default function BusinessDiscoveryDashboard() {
               Unlock Your Full Lead List
             </h2>
             <p style={{ fontSize: '15px', color: brand.textMuted, lineHeight: '1.5' }}>
-              Enter your info below to download all {results?.totalValid ? Math.min(results.totalValid, MAX_RESULTS).toLocaleString() : ''} leads as a CSV file â completely free.
+              Enter your info below to download all {results?.totalValid ? Math.min(results.totalValid, MAX_RESULTS).toLocaleString() : ''} leads as a CSV file — completely free.
             </p>
           </div>
 
@@ -541,7 +541,7 @@ export default function BusinessDiscoveryDashboard() {
                 fontSize: '16px', padding: '14px 32px', width: '100%',
               }}
             >
-              I've Submitted â Download My Leads
+              I've Submitted — Download My Leads
             </button>
             <p style={{ fontSize: '12px', color: brand.textMuted, marginTop: '10px' }}>
               By PointWake &bull; We respect your privacy. No spam.
@@ -679,18 +679,18 @@ export default function BusinessDiscoveryDashboard() {
                       {b.city && b.state ? `${b.city}, ${b.state}` : (b.address?.slice(0, 40) || 'No address')}
                     </div>
                   </td>
-                  <td style={styles.td}>{b.phone_number || 'â'}</td>
+                  <td style={styles.td}>{b.phone_number || '—'}</td>
                   <td style={styles.td}>
                     {b.email ? (
                       <a href={`mailto:${b.email}`} style={styles.link}>{b.email}</a>
-                    ) : 'â'}
+                    ) : '—'}
                   </td>
                   <td style={styles.td}>
                     {b.website ? (
                       <a href={b.website} target="_blank" rel="noopener noreferrer" style={styles.link}>
                         {b.website.replace(/^https?:\/\//, '').slice(0, 25)}...
                       </a>
-                    ) : 'â'}
+                    ) : '—'}
                   </td>
                   <td style={styles.td}>
                     <span style={{
@@ -722,7 +722,7 @@ export default function BusinessDiscoveryDashboard() {
                 +{(totalValid - FREE_PREVIEW_COUNT).toLocaleString()} more leads available
               </div>
               <p style={{ color: brand.textMuted, fontSize: '15px', marginBottom: '20px', maxWidth: '400px', margin: '0 auto 20px' }}>
-                Enter your info to unlock the full lead list and download as CSV â completely free.
+                Enter your info to unlock the full lead list and download as CSV — completely free.
               </p>
               <button
                 onClick={() => setShowUnlockModal(true)}
@@ -763,7 +763,7 @@ export default function BusinessDiscoveryDashboard() {
           <div>Emails found: <strong>{c.emailsScraped?.toLocaleString() || 0}</strong></div>
         </div>
         <div style={{ marginTop: '12px', fontSize: '12px', color: '#64748b' }}>
-          Every lead is validated â must have at least 2 of 4 contact fields. Fake numbers and placeholder emails are automatically filtered.
+          Every lead is validated — must have at least 2 of 4 contact fields. Fake numbers and placeholder emails are automatically filtered.
         </div>
       </div>
     );
@@ -774,7 +774,7 @@ export default function BusinessDiscoveryDashboard() {
       <div style={styles.ctaGlow} />
       <h2 style={styles.ctaTitle}>Got Your Leads. Now What?</h2>
       <p style={styles.ctaSubtitle}>
-        Finding leads is step one. Converting them is where the money is. PointWake builds the systems that turn cold leads into booked jobs â automatically.
+        Finding leads is step one. Converting them is where the money is. PointWake builds the systems that turn cold leads into booked jobs — automatically.
       </p>
       <div style={styles.ctaFeatures}>
         <div style={styles.ctaFeature}>
@@ -816,7 +816,7 @@ export default function BusinessDiscoveryDashboard() {
       <header style={styles.header}>
         <h1 style={styles.logo}>Free Business Lead Scraper</h1>
         <p style={styles.subtitle}>
-          Search any industry in any U.S. state or city. Get names, phone numbers, emails, and websites â export to CSV instantly.
+          Search any industry in any U.S. state or city. Get names, phone numbers, emails, and websites — export to CSV instantly.
         </p>
         <div style={styles.badge}>100% Free &bull; No Credit Card Required</div>
       </header>
