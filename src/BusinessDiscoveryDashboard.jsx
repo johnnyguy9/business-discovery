@@ -33,10 +33,10 @@ const CITY_COORDS = {
   TX: [
     { city: "Houston", lat: 29.7604, lng: -95.3698 },
     { city: "San Antonio", lat: 29.4241, lng: -98.4936 },
-    { city: "Dallas", lat: 32.7767, lng: -96.797 },
+    { city: "Dallas", lat: 32.7767, lng: -96.7970 },
     { city: "Austin", lat: 30.2672, lng: -97.7431 },
     { city: "Fort Worth", lat: 32.7555, lng: -97.3308 },
-    { city: "El Paso", lat: 31.7619, lng: -106.485 },
+    { city: "El Paso", lat: 31.7619, lng: -106.4850 },
     { city: "Arlington", lat: 32.7357, lng: -97.1081 },
     { city: "Corpus Christi", lat: 27.8006, lng: -97.3964 },
     { city: "Plano", lat: 33.0198, lng: -96.6989 },
@@ -59,7 +59,7 @@ const CITY_COORDS = {
     { city: "St. Petersburg", lat: 27.7676, lng: -82.6403 },
   ],
   NY: [
-    { city: "New York City", lat: 40.7128, lng: -74.006 },
+    { city: "New York City", lat: 40.7128, lng: -74.0060 },
     { city: "Buffalo", lat: 42.8864, lng: -78.8784 },
     { city: "Rochester", lat: 43.1566, lng: -77.6088 },
     { city: "Yonkers", lat: 40.9312, lng: -73.8987 },
@@ -77,17 +77,17 @@ const CITY_COORDS = {
   OH: [
     { city: "Columbus", lat: 39.9612, lng: -82.9988 },
     { city: "Cleveland", lat: 41.4993, lng: -81.6944 },
-    { city: "Cincinnati", lat: 39.1031, lng: -84.512 },
+    { city: "Cincinnati", lat: 39.1031, lng: -84.5120 },
   ],
   GA: [
-    { city: "Atlanta", lat: 33.749, lng: -84.388 },
+    { city: "Atlanta", lat: 33.7490, lng: -84.3880 },
     { city: "Augusta", lat: 33.4735, lng: -82.0105 },
-    { city: "Columbus", lat: 32.461, lng: -84.9877 },
+    { city: "Columbus", lat: 32.4610, lng: -84.9877 },
   ],
   NC: [
     { city: "Charlotte", lat: 35.2271, lng: -80.8431 },
     { city: "Raleigh", lat: 35.7796, lng: -78.6382 },
-    { city: "Greensboro", lat: 36.0726, lng: -79.792 },
+    { city: "Greensboro", lat: 36.0726, lng: -79.7920 },
   ],
   MI: [
     { city: "Detroit", lat: 42.3314, lng: -83.0458 },
@@ -100,17 +100,17 @@ const CITY_COORDS = {
     { city: "Paterson", lat: 40.9168, lng: -74.1718 },
   ],
   VA: [
-    { city: "Virginia Beach", lat: 36.8529, lng: -75.978 },
+    { city: "Virginia Beach", lat: 36.8529, lng: -75.9780 },
     { city: "Norfolk", lat: 36.8508, lng: -76.2859 },
     { city: "Chesapeake", lat: 36.7682, lng: -76.2875 },
   ],
   WA: [
     { city: "Seattle", lat: 47.6062, lng: -122.3321 },
-    { city: "Spokane", lat: 47.6588, lng: -117.426 },
+    { city: "Spokane", lat: 47.6588, lng: -117.4260 },
     { city: "Tacoma", lat: 47.2529, lng: -122.4443 },
   ],
   AZ: [
-    { city: "Phoenix", lat: 33.4484, lng: -112.074 },
+    { city: "Phoenix", lat: 33.4484, lng: -112.0740 },
     { city: "Tucson", lat: 32.2226, lng: -110.9747 },
     { city: "Mesa", lat: 33.4152, lng: -111.8315 },
   ],
@@ -121,7 +121,7 @@ const CITY_COORDS = {
   ],
   TN: [
     { city: "Nashville", lat: 36.1627, lng: -86.7816 },
-    { city: "Memphis", lat: 35.1495, lng: -90.049 },
+    { city: "Memphis", lat: 35.1495, lng: -90.0490 },
     { city: "Knoxville", lat: 35.9606, lng: -83.9207 },
   ],
   IN: [
@@ -130,19 +130,19 @@ const CITY_COORDS = {
   ],
   MO: [
     { city: "Kansas City", lat: 39.0997, lng: -94.5786 },
-    { city: "St. Louis", lat: 38.627, lng: -90.1994 },
+    { city: "St. Louis", lat: 38.6270, lng: -90.1994 },
   ],
   MD: [
     { city: "Baltimore", lat: 39.2904, lng: -76.6122 },
-    { city: "Columbia", lat: 39.2037, lng: -76.861 },
+    { city: "Columbia", lat: 39.2037, lng: -76.8610 },
   ],
   CO: [
     { city: "Denver", lat: 39.7392, lng: -104.9903 },
     { city: "Colorado Springs", lat: 38.8339, lng: -104.8214 },
   ],
   MN: [
-    { city: "Minneapolis", lat: 44.9778, lng: -93.265 },
-    { city: "St. Paul", lat: 44.9537, lng: -93.09 },
+    { city: "Minneapolis", lat: 44.9778, lng: -93.2650 },
+    { city: "St. Paul", lat: 44.9537, lng: -93.0900 },
   ],
   WI: [
     { city: "Milwaukee", lat: 43.0389, lng: -87.9065 },
@@ -159,8 +159,8 @@ const CITY_COORDS = {
   DE: [{ city: "Wilmington", lat: 39.7391, lng: -75.5398 }],
   DC: [{ city: "Washington", lat: 38.9072, lng: -77.0369 }],
   HI: [{ city: "Honolulu", lat: 21.3069, lng: -157.8583 }],
-  ID: [{ city: "Boise", lat: 43.615, lng: -116.2023 }],
-  IA: [{ city: "Des Moines", lat: 41.5868, lng: -93.625 }],
+  ID: [{ city: "Boise", lat: 43.6150, lng: -116.2023 }],
+  IA: [{ city: "Des Moines", lat: 41.5868, lng: -93.6250 }],
   KS: [{ city: "Wichita", lat: 37.6872, lng: -97.3301 }],
   KY: [{ city: "Louisville", lat: 38.2527, lng: -85.7585 }],
   LA: [{ city: "New Orleans", lat: 29.9511, lng: -90.0715 }],
@@ -174,12 +174,12 @@ const CITY_COORDS = {
   ND: [{ city: "Fargo", lat: 46.8772, lng: -96.7898 }],
   OK: [{ city: "Oklahoma City", lat: 35.4676, lng: -97.5164 }],
   OR: [{ city: "Portland", lat: 45.5152, lng: -122.6784 }],
-  RI: [{ city: "Providence", lat: 41.824, lng: -71.4128 }],
+  RI: [{ city: "Providence", lat: 41.8240, lng: -71.4128 }],
   SD: [{ city: "Sioux Falls", lat: 43.5446, lng: -96.7311 }],
-  UT: [{ city: "Salt Lake City", lat: 40.7608, lng: -111.891 }],
+  UT: [{ city: "Salt Lake City", lat: 40.7608, lng: -111.8910 }],
   VT: [{ city: "Burlington", lat: 44.4759, lng: -73.2121 }],
   WV: [{ city: "Charleston", lat: 38.3498, lng: -81.6326 }],
-  WY: [{ city: "Cheyenne", lat: 41.14, lng: -104.8202 }],
+  WY: [{ city: "Cheyenne", lat: 41.1400, lng: -104.8202 }],
 };
 
 // PointWake brand colors
@@ -518,6 +518,8 @@ export default function BusinessDiscoveryDashboard() {
   const [backendStatus, setBackendStatus] = useState('checking');
   const [showUnlockModal, setShowUnlockModal] = useState(false);
   const [isUnlocked, setIsUnlocked] = useState(false);
+  const [modalOpenedAt, setModalOpenedAt] = useState(null);
+  const [fallbackVisible, setFallbackVisible] = useState(false);
 
   // Check backend connectivity
   useEffect(() => {
@@ -639,13 +641,14 @@ export default function BusinessDiscoveryDashboard() {
   };
 
   const downloadCSV = () => {
-    if (jobId && jobStatus === 'completed') {
-      if (!isUnlocked) {
-        setShowUnlockModal(true);
-        return;
-      }
-      window.open(`${API_BASE}/api/results/${jobId}/csv`, '_blank');
+    if (!jobId || jobStatus !== 'completed') return;
+    if (!isUnlocked) {
+      setShowUnlockModal(true);
+      setModalOpenedAt(Date.now());
+      setFallbackVisible(false);
+      return;
     }
+    window.open(`${API_BASE}/api/results/${jobId}/csv`, '_blank');
   };
 
   // Listen for GHL form submission (form posts a message when submitted)
@@ -661,12 +664,19 @@ export default function BusinessDiscoveryDashboard() {
     return () => window.removeEventListener('message', handleMessage);
   }, []);
 
+  // Fallback: show a small "I already submitted" link after 45s in case postMessage doesn't fire
+  useEffect(() => {
+    if (!showUnlockModal || !modalOpenedAt) return;
+    const timer = setTimeout(() => setFallbackVisible(true), 45000);
+    return () => clearTimeout(timer);
+  }, [showUnlockModal, modalOpenedAt]);
+
   const renderUnlockModal = () => {
     if (!showUnlockModal) return null;
     return (
       <div style={{
         position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-        backgroundColor: 'rgba(0, 0, 0, 0.8)', zIndex: 9999,
+        backgroundColor: 'rgba(0, 0, 0, 0.85)', zIndex: 9999,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         padding: '20px',
       }}>
@@ -693,7 +703,7 @@ export default function BusinessDiscoveryDashboard() {
               Unlock Your Full Lead List
             </h2>
             <p style={{ fontSize: '15px', color: brand.textMuted, lineHeight: '1.5' }}>
-              Enter your info below to download all {results?.totalValid ? Math.min(results.totalValid, MAX_RESULTS).toLocaleString() : ''} leads as a CSV file — completely free.
+              Fill out the form below to download all {results?.totalValid ? Math.min(results.totalValid, MAX_RESULTS).toLocaleString() : ''} leads as a CSV file — completely free.
             </p>
           </div>
 
@@ -707,15 +717,21 @@ export default function BusinessDiscoveryDashboard() {
           />
 
           <div style={{ textAlign: 'center', marginTop: '16px' }}>
-            <button
-              onClick={() => { setIsUnlocked(true); setShowUnlockModal(false); }}
-              style={{
-                ...styles.button, ...styles.primaryButton,
-                fontSize: '16px', padding: '14px 32px', width: '100%',
-              }}
-            >
-              I've Submitted — Download My Leads
-            </button>
+            <p style={{ fontSize: '14px', color: brand.textMuted, marginBottom: '8px' }}>
+              &#9432; Submit the form above — your download will start automatically.
+            </p>
+            {fallbackVisible && (
+              <button
+                onClick={() => { setIsUnlocked(true); setShowUnlockModal(false); }}
+                style={{
+                  background: 'none', border: 'none', color: brand.textMuted,
+                  fontSize: '12px', cursor: 'pointer', textDecoration: 'underline',
+                  padding: '4px', marginTop: '4px',
+                }}
+              >
+                I already submitted but nothing happened
+              </button>
+            )}
             <p style={{ fontSize: '12px', color: brand.textMuted, marginTop: '10px' }}>
               By PointWake &bull; We respect your privacy. No spam.
             </p>
