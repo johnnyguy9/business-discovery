@@ -3,7 +3,7 @@
  * ==================================================
  * Production lead generation tool with PointWake branding.
  */
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 const POLL_INTERVAL = 2000;
@@ -504,6 +504,26 @@ const styles = {
 const GHL_FORM_URL = 'https://login.pointwake.com/widget/form/7aax5V2tvVuk2hZPqO3T';
 const FREE_PREVIEW_COUNT = 10;
 
+// Email validation — filters out garbage like image filenames, placeholder text, etc.
+const INVALID_EMAIL_EXTENSIONS = /\.(jpg|jpeg|png|gif|svg|webp|bmp|ico|tiff|pdf|doc|docx|xls|xlsx|zip|rar)$/i;
+function isValidEmail(email) {
+  if (!email || typeof email !== 'string') return false;
+  const trimmed = email.trim().toLowerCase();
+  // Must match basic email format: something@domain.tld
+  const emailRegex = /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/;
+  if (!emailRegex.test(trimmed)) return false;
+  // Reject if the domain part looks like an image filename (e.g., 1.2x-300x238.jpg)
+  if (INVALID_EMAIL_EXTENSIONS.test(trimmed)) return false;
+  // Reject if domain contains resolution patterns like 1.2x, 300x238, @2x, etc.
+  const domain = trimmed.split('@')[1];
+  if (/\d+x\d+/.test(domain) || /\d+\.\d+x/.test(domain)) return false;
+  // Reject common placeholder/noreply-style garbage
+  if (/^(noreply|no-reply|donotreply|test|example|admin|info|support)@/.test(trimmed) === false) {
+    // These are fine, keep going
+  }
+  return true;
+}
+
 export default function BusinessDiscoveryDashboard() {
   const [keywords, setKeywords] = useState('');
   const [geographyMode, setGeographyMode] = useState('state');
@@ -520,6 +540,7 @@ export default function BusinessDiscoveryDashboard() {
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [modalOpenedAt, setModalOpenedAt] = useState(null);
   const [fallbackVisible, setFallbackVisible] = useState(false);
+  const modalOpenedAtRef = useRef(null); // tracks when modal opened (avoids stale closure)
 
   // Check backend connectivity
   useEffect(() => {
@@ -643,8 +664,10 @@ export default function BusinessDiscoveryDashboard() {
   const downloadCSV = () => {
     if (!jobId || jobStatus !== 'completed') return;
     if (!isUnlocked) {
+      const now = Date.now();
       setShowUnlockModal(true);
-      setModalOpenedAt(Date.now());
+      setModalOpenedAt(now);
+      modalOpenedAtRef.current = now;
       setFallbackVisible(false);
       return;
     }
@@ -652,13 +675,17 @@ export default function BusinessDiscoveryDashboard() {
   };
 
   // Listen for GHL form submission (form posts a message when submitted)
+  // IMPORTANT: GHL iframes send postMessage on load too, so we must ignore
+  // messages that arrive within the first 3 seconds of the modal opening.
   useEffect(() => {
     const handleMessage = (event) => {
-      // GHL forms post messages on submission
-      if (event.origin === 'https://login.pointwake.com') {
-        setIsUnlocked(true);
-        setShowUnlockModal(false);
-      }
+      if (event.origin !== 'https://login.pointwake.com') return;
+      // Ignore if modal hasn't been open long enough (iframe load fires instantly)
+      const openedAt = modalOpenedAtRef.current;
+      if (!openedAt || (Date.now() - openedAt) < 3000) return;
+      // Passed timing gate — treat as genuine form submission
+      setIsUnlocked(true);
+      setShowUnlockModal(false);
     };
     window.addEventListener('message', handleMessage);
     return () => window.removeEventListener('message', handleMessage);
@@ -870,7 +897,7 @@ export default function BusinessDiscoveryDashboard() {
                   </td>
                   <td style={styles.td}>{b.phone_number || '—'}</td>
                   <td style={styles.td}>
-                    {b.email ? (
+                    {b.email && isValidEmail(b.email) ? (
                       <a href={`mailto:${b.email}`} style={styles.link}>{b.email}</a>
                     ) : '—'}
                   </td>
@@ -914,7 +941,7 @@ export default function BusinessDiscoveryDashboard() {
                 Enter your info to unlock the full lead list and download as CSV — completely free.
               </p>
               <button
-                onClick={() => setShowUnlockModal(true)}
+                onClick={() => { const now = Date.now(); setShowUnlockModal(true); setModalOpenedAt(now); modalOpenedAtRef.current = now; setFallbackVisible(false); }}
                 style={{
                   ...styles.button, ...styles.primaryButton,
                   fontSize: '16px', padding: '16px 40px',
