@@ -666,23 +666,51 @@ export default function BusinessDiscoveryDashboard() {
     window.open(`${API_BASE}/api/results/${jobId}/csv`, '_blank');
   };
 
-  // Open GHL form in new tab and start the confirm timer
+  // Open GHL form as a popup window and watch for it to close
+  const formPopupRef = useRef(null);
+  const popupPollRef = useRef(null);
+
   const openUnlockForm = () => {
-    window.open(GHL_FORM_URL, '_blank');
+    // Open as a centered popup window
+    const w = 520, h = 700;
+    const left = Math.round((window.screen.width - w) / 2);
+    const top = Math.round((window.screen.height - h) / 2);
+    const popup = window.open(
+      GHL_FORM_URL,
+      'pointwake_unlock',
+      `width=${w},height=${h},left=${left},top=${top},scrollbars=yes,resizable=yes`
+    );
+    formPopupRef.current = popup;
+
     const now = Date.now();
     setModalOpenedAt(now);
     modalOpenedAtRef.current = now;
-    setShowUnlockModal(true);   // shows the "waiting" overlay
+    setShowUnlockModal(true);
     setFallbackVisible(false);
-    // After 15 seconds, show the "I've submitted" confirm button
-    setTimeout(() => setFallbackVisible(true), 15000);
+
+    // Poll to detect when the popup is closed
+    if (popupPollRef.current) clearInterval(popupPollRef.current);
+    popupPollRef.current = setInterval(() => {
+      if (!formPopupRef.current || formPopupRef.current.closed) {
+        clearInterval(popupPollRef.current);
+        popupPollRef.current = null;
+        // Popup was closed — show the confirm button
+        setFallbackVisible(true);
+      }
+    }, 500);
   };
 
-  // Confirm submission — user clicks after filling out the form in other tab
+  // Confirm submission — user clicks after closing the popup
   const confirmSubmission = () => {
     setIsUnlocked(true);
     setShowUnlockModal(false);
+    if (popupPollRef.current) { clearInterval(popupPollRef.current); popupPollRef.current = null; }
   };
+
+  // Clean up popup poll on unmount
+  useEffect(() => {
+    return () => { if (popupPollRef.current) clearInterval(popupPollRef.current); };
+  }, []);
 
   const renderUnlockModal = () => {
     if (!showUnlockModal) return null;
@@ -713,10 +741,13 @@ export default function BusinessDiscoveryDashboard() {
 
           <div style={{ fontSize: '48px', marginBottom: '12px' }}>&#128221;</div>
           <h2 style={{ fontSize: '22px', fontWeight: '800', color: '#fff', marginBottom: '12px' }}>
-            Almost there!
+            {fallbackVisible ? 'Form Complete?' : 'Almost there!'}
           </h2>
           <p style={{ fontSize: '15px', color: brand.textMuted, lineHeight: '1.6', marginBottom: '24px' }}>
-            A form just opened in a new tab. Fill it out to unlock your {results?.totalValid ? Math.min(results.totalValid, MAX_RESULTS).toLocaleString() : ''} leads — completely free.
+            {fallbackVisible
+              ? `Hit the button below to download your ${results?.totalValid ? Math.min(results.totalValid, MAX_RESULTS).toLocaleString() : ''} leads.`
+              : `Fill out the form in the popup window to unlock your ${results?.totalValid ? Math.min(results.totalValid, MAX_RESULTS).toLocaleString() : ''} leads — completely free.`
+            }
           </p>
 
           {!fallbackVisible ? (
@@ -728,6 +759,9 @@ export default function BusinessDiscoveryDashboard() {
               }} />
               <p style={{ fontSize: '14px', color: brand.textMuted }}>
                 Waiting for you to complete the form...
+              </p>
+              <p style={{ fontSize: '12px', color: brand.textMuted, marginTop: '8px' }}>
+                Don't see the popup? <a href="#" onClick={(e) => { e.preventDefault(); openUnlockForm(); }} style={{ color: brand.orange, textDecoration: 'underline' }}>Open it again</a>
               </p>
               <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
             </div>
@@ -742,11 +776,8 @@ export default function BusinessDiscoveryDashboard() {
                   marginBottom: '12px',
                 }}
               >
-                I've Submitted the Form &#10003;
+                Download My Leads &#8595;
               </button>
-              <p style={{ fontSize: '13px', color: brand.textMuted, marginTop: '8px' }}>
-                Didn't see the form? <a href={GHL_FORM_URL} target="_blank" rel="noopener noreferrer" style={{ color: brand.orange, textDecoration: 'underline' }}>Open it again</a>
-              </p>
             </div>
           )}
 
