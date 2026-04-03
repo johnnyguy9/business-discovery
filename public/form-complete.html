@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Success! | PointWake</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #0f172a;
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+    }
+    .card {
+      text-align: center;
+      max-width: 400px;
+      background: #1e293b;
+      border-radius: 20px;
+      padding: 40px 32px;
+      border: 1px solid #334155;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+    }
+    .icon { font-size: 56px; margin-bottom: 16px; }
+    h1 { font-size: 22px; font-weight: 800; margin-bottom: 12px; }
+    p { font-size: 15px; color: #94a3b8; line-height: 1.6; }
+    .countdown { color: #f97316; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon">&#10004;&#65039;</div>
+    <h1>You're all set!</h1>
+    <p>Your leads are being unlocked. This window will close in <span class="countdown" id="timer">3</span> seconds...</p>
+    <p style="margin-top: 16px; font-size: 12px;">By PointWake &bull; We respect your privacy.</p>
+  </div>
+
+  <script>
+    // Notify the opener window that the form was submitted
+    if (window.opener) {
+      window.opener.postMessage('pointwake_form_submitted', 'https://www.pointwakeglobal.com');
+      // Also try without www in case of domain variation
+      window.opener.postMessage('pointwake_form_submitted', 'https://pointwakeglobal.com');
+    }
+
+    // Countdown and auto-close
+    var seconds = 3;
+    var timerEl = document.getElementById('timer');
+    var interval = setInterval(function() {
+      seconds--;
+      timerEl.textContent = seconds;
+      if (seconds <= 0) {
+        clearInterval(interval);
+        window.close();
+      }
+    }, 1000);
+  </script>
+</body>
+</html>
