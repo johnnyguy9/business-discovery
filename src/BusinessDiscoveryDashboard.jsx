@@ -666,9 +666,8 @@ export default function BusinessDiscoveryDashboard() {
     window.open(`${API_BASE}/api/results/${jobId}/csv`, '_blank');
   };
 
-  // Open GHL form as a popup window and watch for it to close
+  // Open GHL form as a popup window
   const formPopupRef = useRef(null);
-  const popupPollRef = useRef(null);
 
   const openUnlockForm = () => {
     // Open as a centered popup window
@@ -681,35 +680,25 @@ export default function BusinessDiscoveryDashboard() {
       `width=${w},height=${h},left=${left},top=${top},scrollbars=yes,resizable=yes`
     );
     formPopupRef.current = popup;
-
-    const now = Date.now();
-    setModalOpenedAt(now);
-    modalOpenedAtRef.current = now;
     setShowUnlockModal(true);
     setFallbackVisible(false);
-
-    // Poll to detect when the popup is closed
-    if (popupPollRef.current) clearInterval(popupPollRef.current);
-    popupPollRef.current = setInterval(() => {
-      if (!formPopupRef.current || formPopupRef.current.closed) {
-        clearInterval(popupPollRef.current);
-        popupPollRef.current = null;
-        // Popup was closed — show the confirm button
-        setFallbackVisible(true);
-      }
-    }, 500);
   };
 
-  // Confirm submission — user clicks after closing the popup
-  const confirmSubmission = () => {
-    setIsUnlocked(true);
-    setShowUnlockModal(false);
-    if (popupPollRef.current) { clearInterval(popupPollRef.current); popupPollRef.current = null; }
-  };
-
-  // Clean up popup poll on unmount
+  // Listen for the form-complete.html page to confirm submission via postMessage.
+  // GHL form redirects to pointwakeglobal.com/form-complete.html after submit,
+  // which sends 'pointwake_form_submitted' back to this window. This ONLY fires
+  // after a real form submission — closing the popup without submitting does nothing.
   useEffect(() => {
-    return () => { if (popupPollRef.current) clearInterval(popupPollRef.current); };
+    const handleMessage = (event) => {
+      // Only accept from our own domain
+      if (event.origin !== 'https://www.pointwakeglobal.com' && event.origin !== 'https://pointwakeglobal.com') return;
+      if (event.data !== 'pointwake_form_submitted') return;
+      // Verified form submission — unlock!
+      setIsUnlocked(true);
+      setShowUnlockModal(false);
+    };
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
   }, []);
 
   const renderUnlockModal = () => {
@@ -741,45 +730,26 @@ export default function BusinessDiscoveryDashboard() {
 
           <div style={{ fontSize: '48px', marginBottom: '12px' }}>&#128221;</div>
           <h2 style={{ fontSize: '22px', fontWeight: '800', color: '#fff', marginBottom: '12px' }}>
-            {fallbackVisible ? 'Form Complete?' : 'Almost there!'}
+            Almost there!
           </h2>
           <p style={{ fontSize: '15px', color: brand.textMuted, lineHeight: '1.6', marginBottom: '24px' }}>
-            {fallbackVisible
-              ? `Hit the button below to download your ${results?.totalValid ? Math.min(results.totalValid, MAX_RESULTS).toLocaleString() : ''} leads.`
-              : `Fill out the form in the popup window to unlock your ${results?.totalValid ? Math.min(results.totalValid, MAX_RESULTS).toLocaleString() : ''} leads — completely free.`
-            }
+            Fill out the form in the popup window to unlock your {results?.totalValid ? Math.min(results.totalValid, MAX_RESULTS).toLocaleString() : ''} leads — completely free. Your download will appear automatically once you submit.
           </p>
 
-          {!fallbackVisible ? (
-            <div style={{ padding: '20px 0' }}>
-              <div style={{
-                width: '40px', height: '40px', border: '3px solid rgba(255,255,255,0.15)',
-                borderTop: `3px solid ${brand.orange}`, borderRadius: '50%',
-                animation: 'spin 1s linear infinite', margin: '0 auto 16px',
-              }} />
-              <p style={{ fontSize: '14px', color: brand.textMuted }}>
-                Waiting for you to complete the form...
-              </p>
-              <p style={{ fontSize: '12px', color: brand.textMuted, marginTop: '8px' }}>
-                Don't see the popup? <a href="#" onClick={(e) => { e.preventDefault(); openUnlockForm(); }} style={{ color: brand.orange, textDecoration: 'underline' }}>Open it again</a>
-              </p>
-              <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-            </div>
-          ) : (
-            <div>
-              <button
-                onClick={confirmSubmission}
-                style={{
-                  ...styles.button, ...styles.primaryButton,
-                  fontSize: '16px', padding: '16px 40px',
-                  boxShadow: `0 4px 20px ${brand.orangeGlow}`,
-                  marginBottom: '12px',
-                }}
-              >
-                Download My Leads &#8595;
-              </button>
-            </div>
-          )}
+          <div style={{ padding: '20px 0' }}>
+            <div style={{
+              width: '40px', height: '40px', border: '3px solid rgba(255,255,255,0.15)',
+              borderTop: `3px solid ${brand.orange}`, borderRadius: '50%',
+              animation: 'spin 1s linear infinite', margin: '0 auto 16px',
+            }} />
+            <p style={{ fontSize: '14px', color: brand.textMuted }}>
+              Waiting for you to submit the form...
+            </p>
+            <p style={{ fontSize: '12px', color: brand.textMuted, marginTop: '12px' }}>
+              Don't see the popup? <a href="#" onClick={(e) => { e.preventDefault(); openUnlockForm(); }} style={{ color: brand.orange, textDecoration: 'underline' }}>Open it again</a>
+            </p>
+            <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+          </div>
 
           <p style={{ fontSize: '12px', color: brand.textMuted, marginTop: '20px' }}>
             By PointWake &bull; We respect your privacy. No spam.
