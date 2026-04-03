@@ -663,40 +663,26 @@ export default function BusinessDiscoveryDashboard() {
 
   const downloadCSV = () => {
     if (!jobId || jobStatus !== 'completed') return;
-    if (!isUnlocked) {
-      const now = Date.now();
-      setShowUnlockModal(true);
-      setModalOpenedAt(now);
-      modalOpenedAtRef.current = now;
-      setFallbackVisible(false);
-      return;
-    }
     window.open(`${API_BASE}/api/results/${jobId}/csv`, '_blank');
   };
 
-  // Listen for GHL form submission (form posts a message when submitted)
-  // IMPORTANT: GHL iframes send postMessage on load too, so we must ignore
-  // messages that arrive within the first 3 seconds of the modal opening.
-  useEffect(() => {
-    const handleMessage = (event) => {
-      if (event.origin !== 'https://login.pointwake.com') return;
-      // Ignore if modal hasn't been open long enough (iframe load fires instantly)
-      const openedAt = modalOpenedAtRef.current;
-      if (!openedAt || (Date.now() - openedAt) < 3000) return;
-      // Passed timing gate — treat as genuine form submission
-      setIsUnlocked(true);
-      setShowUnlockModal(false);
-    };
-    window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
-  }, []);
+  // Open GHL form in new tab and start the confirm timer
+  const openUnlockForm = () => {
+    window.open(GHL_FORM_URL, '_blank');
+    const now = Date.now();
+    setModalOpenedAt(now);
+    modalOpenedAtRef.current = now;
+    setShowUnlockModal(true);   // shows the "waiting" overlay
+    setFallbackVisible(false);
+    // After 15 seconds, show the "I've submitted" confirm button
+    setTimeout(() => setFallbackVisible(true), 15000);
+  };
 
-  // Fallback: show a small "I already submitted" link after 45s in case postMessage doesn't fire
-  useEffect(() => {
-    if (!showUnlockModal || !modalOpenedAt) return;
-    const timer = setTimeout(() => setFallbackVisible(true), 45000);
-    return () => clearTimeout(timer);
-  }, [showUnlockModal, modalOpenedAt]);
+  // Confirm submission — user clicks after filling out the form in other tab
+  const confirmSubmission = () => {
+    setIsUnlocked(true);
+    setShowUnlockModal(false);
+  };
 
   const renderUnlockModal = () => {
     if (!showUnlockModal) return null;
@@ -712,6 +698,7 @@ export default function BusinessDiscoveryDashboard() {
           padding: '32px', maxWidth: '520px', width: '100%',
           border: `1px solid ${brand.border}`, position: 'relative',
           boxShadow: `0 25px 50px rgba(0, 0, 0, 0.5), 0 0 40px ${brand.orangeGlow}`,
+          textAlign: 'center',
         }}>
           <button
             onClick={() => setShowUnlockModal(false)}
@@ -724,45 +711,48 @@ export default function BusinessDiscoveryDashboard() {
             &#10005;
           </button>
 
-          <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-            <div style={{ fontSize: '40px', marginBottom: '8px' }}>&#128274;</div>
-            <h2 style={{ fontSize: '24px', fontWeight: '800', color: '#fff', marginBottom: '8px' }}>
-              Unlock Your Full Lead List
-            </h2>
-            <p style={{ fontSize: '15px', color: brand.textMuted, lineHeight: '1.5' }}>
-              Fill out the form below to download all {results?.totalValid ? Math.min(results.totalValid, MAX_RESULTS).toLocaleString() : ''} leads as a CSV file — completely free.
-            </p>
-          </div>
+          <div style={{ fontSize: '48px', marginBottom: '12px' }}>&#128221;</div>
+          <h2 style={{ fontSize: '22px', fontWeight: '800', color: '#fff', marginBottom: '12px' }}>
+            Almost there!
+          </h2>
+          <p style={{ fontSize: '15px', color: brand.textMuted, lineHeight: '1.6', marginBottom: '24px' }}>
+            A form just opened in a new tab. Fill it out to unlock your {results?.totalValid ? Math.min(results.totalValid, MAX_RESULTS).toLocaleString() : ''} leads — completely free.
+          </p>
 
-          <iframe
-            src={GHL_FORM_URL}
-            style={{
-              width: '100%', height: '480px', border: 'none', borderRadius: '12px',
-              backgroundColor: '#fff',
-            }}
-            title="Unlock leads form"
-          />
-
-          <div style={{ textAlign: 'center', marginTop: '16px' }}>
-            <p style={{ fontSize: '14px', color: brand.textMuted, marginBottom: '8px' }}>
-              &#9432; Submit the form above — your download will start automatically.
-            </p>
-            {fallbackVisible && (
+          {!fallbackVisible ? (
+            <div style={{ padding: '20px 0' }}>
+              <div style={{
+                width: '40px', height: '40px', border: '3px solid rgba(255,255,255,0.15)',
+                borderTop: `3px solid ${brand.orange}`, borderRadius: '50%',
+                animation: 'spin 1s linear infinite', margin: '0 auto 16px',
+              }} />
+              <p style={{ fontSize: '14px', color: brand.textMuted }}>
+                Waiting for you to complete the form...
+              </p>
+              <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+            </div>
+          ) : (
+            <div>
               <button
-                onClick={() => { setIsUnlocked(true); setShowUnlockModal(false); }}
+                onClick={confirmSubmission}
                 style={{
-                  background: 'none', border: 'none', color: brand.textMuted,
-                  fontSize: '12px', cursor: 'pointer', textDecoration: 'underline',
-                  padding: '4px', marginTop: '4px',
+                  ...styles.button, ...styles.primaryButton,
+                  fontSize: '16px', padding: '16px 40px',
+                  boxShadow: `0 4px 20px ${brand.orangeGlow}`,
+                  marginBottom: '12px',
                 }}
               >
-                I already submitted but nothing happened
+                I've Submitted the Form &#10003;
               </button>
-            )}
-            <p style={{ fontSize: '12px', color: brand.textMuted, marginTop: '10px' }}>
-              By PointWake &bull; We respect your privacy. No spam.
-            </p>
-          </div>
+              <p style={{ fontSize: '13px', color: brand.textMuted, marginTop: '8px' }}>
+                Didn't see the form? <a href={GHL_FORM_URL} target="_blank" rel="noopener noreferrer" style={{ color: brand.orange, textDecoration: 'underline' }}>Open it again</a>
+              </p>
+            </div>
+          )}
+
+          <p style={{ fontSize: '12px', color: brand.textMuted, marginTop: '20px' }}>
+            By PointWake &bull; We respect your privacy. No spam.
+          </p>
         </div>
       </div>
     );
@@ -846,9 +836,14 @@ export default function BusinessDiscoveryDashboard() {
       <div style={styles.card}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap', gap: '12px' }}>
           <h3 style={{ ...styles.cardTitle, marginBottom: 0 }}>Lead Results</h3>
-          {jobStatus === 'completed' && (
+          {jobStatus === 'completed' && isUnlocked && (
             <button onClick={downloadCSV} style={{ ...styles.button, ...styles.primaryButton }}>
-              {isUnlocked ? `Download CSV (${totalValid.toLocaleString()} leads)` : `Unlock & Download All ${totalValid.toLocaleString()} Leads`}
+              Download CSV ({totalValid.toLocaleString()} leads)
+            </button>
+          )}
+          {jobStatus === 'completed' && !isUnlocked && (
+            <button onClick={openUnlockForm} style={{ ...styles.button, ...styles.primaryButton }}>
+              Unlock All {totalValid.toLocaleString()} Leads
             </button>
           )}
         </div>
@@ -941,7 +936,7 @@ export default function BusinessDiscoveryDashboard() {
                 Enter your info to unlock the full lead list and download as CSV — completely free.
               </p>
               <button
-                onClick={() => { const now = Date.now(); setShowUnlockModal(true); setModalOpenedAt(now); modalOpenedAtRef.current = now; setFallbackVisible(false); }}
+                onClick={openUnlockForm}
                 style={{
                   ...styles.button, ...styles.primaryButton,
                   fontSize: '16px', padding: '16px 40px',
